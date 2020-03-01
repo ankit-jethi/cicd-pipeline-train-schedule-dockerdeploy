@@ -15,9 +15,9 @@ pipeline {
             steps {
                 //sh 'docker build -t ankitjethi/train-schedule .'
                 script {
-                    app = docker.build("ankitjethi/train-schedule:${env.BUILD_NUMBER}")
+                    app = docker.build("ankitjethi/train-schedule")
                     app.inside {
-                        sh 'echo $(curl localhost:8080)'
+                        sh 'npm test'
                     }
                 }
             }
@@ -29,6 +29,7 @@ pipeline {
             steps {
                 script {
                     docker.withRegistry ('https://registry.hub.docker.com', 'docker_hub_login') {
+                        app.push('${env.BUILD_NUMBER}')
                         app.push('latest')
                     }
                 }
