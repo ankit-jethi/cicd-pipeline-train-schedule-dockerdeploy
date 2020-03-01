@@ -8,5 +8,10 @@ pipeline {
                 archiveArtifacts artifacts: 'dist/trainSchedule.zip'
             }
         }
+        stage('Build-Docker-Image') {
+            steps {
+                sh 'docker build -t ankitjethi/train-schedule .'
+            }
+        }
     }
 }
