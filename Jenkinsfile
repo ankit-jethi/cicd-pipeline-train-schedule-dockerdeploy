@@ -39,9 +39,9 @@ pipeline {
             when {
                 branch 'master'
             }
+            steps {
             input 'Do you want to deploy to Production?'
             milestone(1)
-            steps {
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', passwordVariable: 'USERPASS', usernameVariable: 'USERNAME')]) {
                     sh 'sshpass -p $USERPASS ssh $USERNAME@$prod_ip "docker pull ankitjethi/train-schedule:${env.BUILD_NUMBER}'
                 }
