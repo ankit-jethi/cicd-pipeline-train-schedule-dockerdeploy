@@ -44,12 +44,14 @@ pipeline {
             milestone(1)
                 withCredentials([usernamePassword(credentialsId: 'webserver_login', passwordVariable: 'USERPASS', usernameVariable: 'USERNAME')]) {
                     sh "sshpass -p $USERPASS ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker pull ankitjethi/train-schedule:${env.BUILD_NUMBER}\""
-                    try {
-                        sh "sshpass -p $USERPASS ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
-                        sh "sshpass -p $USERPASS ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
-                    }
-                    catch(err) {
-                     echo 'Caught error: $err'   
+                    script {
+                        try {
+                            sh "sshpass -p $USERPASS ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker stop train-schedule\""
+                            sh "sshpass -p $USERPASS ssh -o StrictHostKeyChecking=no $USERNAME@$prod_ip \"docker rm train-schedule\""
+                        }
+                        catch(err) {
+                            echo 'Caught error: $err'   
+                        }
                     }
                 }
             }
