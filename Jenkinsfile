@@ -17,7 +17,7 @@ pipeline {
                 script {
                     def app = docker.build("ankitjethi/train-schedule:${env.BUILD_NUMBER}")
                     app.inside {
-                        sh 'curl localhost:8080'
+                        sh 'echo $(curl localhost:8080)'
                     }
                 }
             }
